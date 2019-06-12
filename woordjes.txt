@@ -1,4 +1,2 @@
-ab, abs +abl = van(af), door
-ac = en, dan
-ad +acc = naar, tot aan, bij
 an = of
+servus = slaaf

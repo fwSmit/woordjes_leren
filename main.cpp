@@ -13,6 +13,7 @@ struct Word{
 
 bool askQuestion(Word word);
 void removeUnneccesaryCharacters(string& str, bool isAnswer = false);
+string removeSpacesFromBeginAndEnd(const string& str);
 template <typename I>
 size_t random_element(I begin, I end);
 
@@ -26,12 +27,14 @@ int main(){
 		while(getline(words_file, line)){
 			std::size_t equalSign = line.find('=');
 			if(equalSign != std::string::npos){
-				std::cout << "Found equal sign at: " << equalSign << endl;
+				// std::cout << "Found equal sign at: " << equalSign << endl;
 				string question = line.substr(0, equalSign);
-				removeUnneccesaryCharacters(question, false);
+				question = removeSpacesFromBeginAndEnd(question);
+				// removeUnneccesaryCharacters(question, false);
 				//std::cout << "Question is:" << question << ",understand?" << endl;
-				string answer = line.substr(equalSign); // take substring from equal sign
-				removeUnneccesaryCharacters(answer);
+				string answer = line.substr(equalSign+1); // take substring from equal sign
+				// removeUnneccesaryCharacters(answer);
+				answer = removeSpacesFromBeginAndEnd(answer);
 				//std::cout << "Answer is:" << answer << ".OK?" << endl;
 				words.push_back(Word(question, answer));
 			}
@@ -42,7 +45,7 @@ int main(){
 		}
 	}
 	else {
-		cout << "unable to open file" << endl;
+		cout << "unable to open file woordjes.txt" << endl;
 		return -1;
 	}
 	std::cout << "Number of words to test: " << words.size() << endl;
@@ -111,6 +114,14 @@ void removeUnneccesaryCharacters(string& str, bool isAnswer){
 			}
 		}
 	}
+}
+
+string removeSpacesFromBeginAndEnd(const string& str){
+	string whiteSpace = " \t\n";
+	std::size_t begin = str.find_first_not_of(whiteSpace);
+	std::size_t end = str.find_last_not_of(whiteSpace);
+	const auto range = end - begin + 1;
+	return str.substr(begin, range);
 }
 
 template <typename I>
